@@ -8,8 +8,8 @@ type ArticleRepository struct {
 	mock.Mock
 }
 
-// Store provides a mock function with given fields: a
-func (_m *ArticleRepository) Store(a *article.Article) error {
+// Insert provides a mock function with given fields: a
+func (_m *ArticleRepository) Insert(a *article.Article) error {
 	ret := _m.Called(a)
 
 	var r0 error
@@ -22,8 +22,36 @@ func (_m *ArticleRepository) Store(a *article.Article) error {
 	return r0
 }
 
-// FindByID provides a mock function with given fields: id
-func (_m *ArticleRepository) FindByID(id int) (*article.Article, error) {
+// Update provides a mock function with given fields: a
+func (_m *ArticleRepository) Update(a *article.Article) error {
+	ret := _m.Called(a)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*article.Article) error); ok {
+		r0 = rf(a)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Delete provides a mock function with given fields: id
+func (_m *ArticleRepository) Delete(id int) error {
+	ret := _m.Called(id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int) error); ok {
+		r0 = rf(id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// SelectByID provides a mock function with given fields: id
+func (_m *ArticleRepository) SelectByID(id int) (*article.Article, error) {
 	ret := _m.Called(id)
 
 	var r0 *article.Article
@@ -45,8 +73,8 @@ func (_m *ArticleRepository) FindByID(id int) (*article.Article, error) {
 	return r0, r1
 }
 
-// FindByURL provides a mock function with given fields: url
-func (_m *ArticleRepository) FindByURL(url string) (*article.Article, error) {
+// SelectByURL provides a mock function with given fields: url
+func (_m *ArticleRepository) SelectByURL(url string) (*article.Article, error) {
 	ret := _m.Called(url)
 
 	var r0 *article.Article

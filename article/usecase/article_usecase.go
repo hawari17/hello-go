@@ -17,7 +17,7 @@ type articleUseCase struct {
 }
 
 func (u *articleUseCase) Store(a *article.Article) error {
-	articleExists, err := u.ArticleRepository.FindByURL(a.URL)
+	articleExists, err := u.ArticleRepository.SelectByURL(a.URL)
 	if err != nil {
 		return err
 	}
@@ -26,11 +26,11 @@ func (u *articleUseCase) Store(a *article.Article) error {
 		return article.ErrAlreadyExists
 	}
 
-	return u.ArticleRepository.Store(a)
+	return u.ArticleRepository.Insert(a)
 }
 
 func (u *articleUseCase) FindByID(id int) (*article.Article, error) {
-	articleReturned, err := u.ArticleRepository.FindByID(id)
+	articleReturned, err := u.ArticleRepository.SelectByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -43,11 +43,29 @@ func (u *articleUseCase) FindByID(id int) (*article.Article, error) {
 }
 
 func (u *articleUseCase) Update(id int, a *article.Article) error {
-	return nil
+	articleExists, err := u.ArticleRepository.SelectByID(id)
+	if err != nil {
+		return err
+	}
+
+	if articleExists == nil {
+		return article.ErrNotFound
+	}
+
+	return u.ArticleRepository.Update(a)
 }
 
 func (u *articleUseCase) Delete(id int) error {
-	return nil
+	articleExists, err := u.ArticleRepository.SelectByID(id)
+	if err != nil {
+		return err
+	}
+
+	if articleExists == nil {
+		return article.ErrNotFound
+	}
+
+	return u.ArticleRepository.Delete(id)
 }
 
 func NewArticleUseCase(repo repository.ArticleRepository) ArticleUsecase {
