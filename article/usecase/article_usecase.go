@@ -30,7 +30,16 @@ func (u *articleUseCase) Store(a *article.Article) error {
 }
 
 func (u *articleUseCase) FindByID(id int) (*article.Article, error) {
-	return nil, nil
+	articleReturned, err := u.ArticleRepository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if articleReturned == nil {
+		return nil, article.ErrAlreadyExists
+	}
+
+	return articleReturned, nil
 }
 
 func (u *articleUseCase) Update(id int, a *article.Article) error {

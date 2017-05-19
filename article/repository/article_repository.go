@@ -6,5 +6,6 @@ import (
 
 type ArticleRepository interface {
 	Store(a *article.Article) error
+	FindByID(id int) (*article.Article, error)
 	FindByURL(url string) (*article.Article, error)
 }

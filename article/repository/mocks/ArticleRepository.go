@@ -8,7 +8,44 @@ type ArticleRepository struct {
 	mock.Mock
 }
 
-// FindByUrl provides a mock function with given fields: url
+// Store provides a mock function with given fields: a
+func (_m *ArticleRepository) Store(a *article.Article) error {
+	ret := _m.Called(a)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*article.Article) error); ok {
+		r0 = rf(a)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// FindByID provides a mock function with given fields: id
+func (_m *ArticleRepository) FindByID(id int) (*article.Article, error) {
+	ret := _m.Called(id)
+
+	var r0 *article.Article
+	if rf, ok := ret.Get(0).(func(int) *article.Article); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*article.Article)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// FindByURL provides a mock function with given fields: url
 func (_m *ArticleRepository) FindByURL(url string) (*article.Article, error) {
 	ret := _m.Called(url)
 
@@ -29,18 +66,4 @@ func (_m *ArticleRepository) FindByURL(url string) (*article.Article, error) {
 	}
 
 	return r0, r1
-}
-
-// Store provides a mock function with given fields: a
-func (_m *ArticleRepository) Store(a *article.Article) error {
-	ret := _m.Called(a)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(*article.Article) error); ok {
-		r0 = rf(a)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
 }
