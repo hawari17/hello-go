@@ -17,7 +17,16 @@ type articleUseCase struct {
 }
 
 func (u *articleUseCase) Store(a *article.Article) error {
-	return nil
+	articleExists, err := u.ArticleRepository.FindByURL(a.URL)
+	if err != nil {
+		return err
+	}
+
+	if articleExists != nil {
+		return article.ErrAlreadyExists
+	}
+
+	return u.ArticleRepository.Store(a)
 }
 
 func (u *articleUseCase) FindByID(id int) (*article.Article, error) {
@@ -33,5 +42,5 @@ func (u *articleUseCase) Delete(id int) error {
 }
 
 func NewArticleUseCase(repo repository.ArticleRepository) ArticleUsecase {
-	return &articleUseCase{ArticleRepository: repo}
+	return &articleUseCase{repo}
 }
